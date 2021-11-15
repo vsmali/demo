@@ -1,0 +1,4 @@
+Id, First Name, Last Name,job,inactive
+abcd123,Jack,1,Remote,true
+xyz123,Jack,1,Remote,false
+mno123,Jack,1,Remote,true
