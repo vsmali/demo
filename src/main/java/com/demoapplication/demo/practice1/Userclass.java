@@ -3,25 +3,24 @@ package com.demoapplication.demo.practice1;
 public class Userclass implements Comparable {
     private String usercode;
     private String name;
-    private String  jobs_completed;
+    private int  jobs_completed;
     private String preffered_location;
-    private String inactive;
+    private boolean inactive;
 
     public Userclass() {
     }
 
     public Userclass(String usercode,
                      String name,
-                     String jobs_completed,
+                     int jobs_completed,
                      String preffered_location,
-                     String inactive) {
+                     boolean inactive) {
         this.usercode = usercode;
         this.name = name;
         this.jobs_completed = jobs_completed;
         this.preffered_location = preffered_location;
         this.inactive = inactive;
     }
-
 
     @Override
     public String toString() {
@@ -34,7 +33,6 @@ public class Userclass implements Comparable {
         int diff = name.compareTo(comparingTo.name);
         return diff;
     }
-
 
 }
 
