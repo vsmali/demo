@@ -1,12 +1,22 @@
 package com.demoapplication.demo.practice1;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Useroperation {
 
+
         public void MainOperation(){
             System.out.println("Enter the file : ");
-            UserOperations userOperations = new UserOperations();
+            Scanner sc = new Scanner(System.in);
+            String filename = sc.nextLine();
+
+            User uo = new User(filename);
+            List<Userclass> u1 = uo.userop();
+
+            UserOperations userOperations = new UserOperations(u1);
             // checks the input file format.
             userOperations.CheckFileFormatOperation();
             int choice;

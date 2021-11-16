@@ -1,141 +1,86 @@
 package com.demoapplication.demo.practice1;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class UserOperations {
 
     Scanner sc = new Scanner(System.in);
-    File filename = new File(sc.nextLine());
-    String f = filename.getName();
+    String filename;
+    List<Userclass> users = new ArrayList<>();
 
-    String currentline;
-    List<Userclass> user = new ArrayList<>();
+    public UserOperations(List<Userclass> user) {
+        this.users = user;
+    }
 
-    public void CheckFileFormatOperation(){
-        try{
-            if(filename.exists()){
-                System.out.println("File exist");
-//                String regex = "([^\\s]+(\\.(?i)(csv|txt|xls))$)";
-//                if(f.matches(regex)){
-                    System.out.println("File Format Matches \n"+f + " file extension is : " + FilenameUtils.getExtension(f));
-                }
-                else {
-                    System.out.println("File Does not exist");
-                }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+
+    public  void CheckFileFormatOperation(){
+//        File file = new File(filename);
+//        if(file.exists())
+//        {
+//            System.out.println("File Exist and File Extension is : "+ FilenameUtils.getExtension(filename));
+//        }
+//        else{
+//                System.out.println("File does not exist");
+//        }
     }
 
 
     public void SearchUserCodeOperation(){
-        try {
-            BufferedReader br1 = new BufferedReader(new FileReader(filename));
-            System.out.println("Enter usercode to search : ");
-            String usercode1 = sc.next();
-            while ((currentline = br1.readLine()) != null) {
-                String[] deatailed = currentline.split(",");
-                String usercode = deatailed[0];
-                String name = deatailed[1];
-                int jobs_completed = Integer.parseInt(deatailed[2]);
-                String preffered_location = deatailed[3];
-                boolean inactive = Boolean.parseBoolean(deatailed[4]);
-                user.add(new Userclass(usercode, name, jobs_completed, preffered_location, inactive));
-                if (usercode1.equals(usercode)) {
-                    System.out.println(usercode + "," + name + "," + jobs_completed + "," + preffered_location + "," + inactive);
-                }
+        System.out.println("Enter the user code");
+        String userCode = sc.next();
+        for (Userclass user : users) {
+            if (userCode.equals(user.getUsercode())) {
+                System.out.println(user.toString());
             }
-        }
-        catch (Exception e){
-            e.printStackTrace();
         }
     }
 
 
     public void SortByAlphabeticOrder() {
-        try {
-            BufferedReader br2 = new BufferedReader(new FileReader(filename));
-            while ((currentline = br2.readLine() )!= null){
-                String[] deatailed = currentline.split(",");
-                String usercode = deatailed[0];
-                String name = deatailed[1];
-                int jobs_completed = Integer.parseInt(deatailed[2]);
-                String preffered_location = deatailed[3];
-                boolean inactive = Boolean.parseBoolean(deatailed[4]);
-                user.add(new Userclass(usercode,name,jobs_completed,preffered_location,inactive));
-            }
-            Collections.sort(user);
+            Collections.sort(users);
             System.out.println("After sorting : ");
-            System.out.println(user);
+            System.out.println(users);
+
         }
-        catch (Exception e ){
-            e.printStackTrace();
-        }
-    }
 
     public void SearchMaxJobCompletion(){
-        try {
-            BufferedReader br3 = new BufferedReader(new FileReader(filename));
-            List<Integer> ls = new ArrayList<Integer>();
-            while ((currentline = br3.readLine()) != null) {
-                String[] deatailed = currentline.split(",");
-                String usercode = deatailed[0];
-                String name = deatailed[1];
-                int jobs_completed = Integer.parseInt(deatailed[2]);
-                String preffered_location = deatailed[3];
-                boolean inactive = Boolean.parseBoolean(deatailed[4]);
-                user.add(new Userclass(usercode, name, jobs_completed, preffered_location, inactive));
-                ls.add(jobs_completed);
-            }
-            System.out.println(Collections.max(ls));
+        for (Userclass u3 : users){
+//            users.sort(Comparator.comparing(Userclass::getJobs_completed));
+//            List<Integer> ls = new ArrayList<Integer>();
+//            ls.add(u3.getJobs_completed());
+//            Collections.max(ls);
+//            System.out.println(u3.getUsercode() + "," + u3.getName() + "," + u3.getJobs_completed() + "," + u3.getPreffered_location() + "," + u3.isInactive());
+            System.out.println(users);
         }
-        catch (Exception e ){
-            e.printStackTrace();
-        }
-
     }
 
     public void CreateFileConsistRemoteJobs(){
         try{
-            BufferedReader br4 = new BufferedReader(new FileReader(filename));
             System.out.println("Enter Preferred Location : ");
             String location = sc.next();
             FileWriter writer = new FileWriter("E:\\1.Practice\\demo\\sample.csv");
-            while ((currentline = br4.readLine() )!= null){
-                String[] deatailed = currentline.split(",");
-                String usercode = deatailed[0];
-                String name = deatailed[1];
-                int jobs_completed = Integer.parseInt(deatailed[2]);
-                String preffered_location = deatailed[3];
-                boolean inactive = Boolean.parseBoolean(deatailed[4]);
-                user.add(new Userclass(usercode,name,jobs_completed,preffered_location,inactive));
-                if(location.equals(preffered_location))
-                {
-                    System.out.println(usercode+","+name+","+jobs_completed+","+preffered_location+","+inactive );
-                    writer.append(usercode);
+            for (Userclass u2 : users) {
+                if (location.equals(u2.getPreffered_location())) {
+                    System.out.println(u2.getUsercode() + "," + u2.getName() + "," + u2.getJobs_completed() + "," + u2.getPreffered_location() + "," + u2.isInactive());
+                    writer.append(u2.getUsercode());
                     writer.append(",");
-                    writer.append(name);
+                    writer.append(u2.getName());
                     writer.append(",");
-                    writer.append(Integer.toString(jobs_completed));
+                    writer.append(Integer.toString(u2.getJobs_completed()));
                     writer.append(",");
-                    writer.append(preffered_location);
+                    writer.append(u2.getPreffered_location());
                     writer.append(",");
-                    writer.append(Boolean.toString(inactive));
+                    writer.append(Boolean.toString(u2.isInactive()));
                     writer.append("\n");
                 }
+            }
 
-            } writer.close();
+            writer.close();
         }
         catch (Exception e){
             e.printStackTrace();
