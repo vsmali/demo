@@ -1,15 +1,15 @@
 package com.demoapplication.demo.practice1;
 
-import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.*;
-import java.util.concurrent.Callable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
 
 public class UserOperations {
 
@@ -18,7 +18,6 @@ public class UserOperations {
     String f = filename.getName();
 
     String currentline;
-    int count=0;
     List<Userclass> user = new ArrayList<>();
 
     public void CheckFileFormatOperation(){
@@ -42,10 +41,10 @@ public class UserOperations {
 
     public void SearchUserCodeOperation(){
         try {
-            BufferedReader br = new BufferedReader(new FileReader(filename));
+            BufferedReader br1 = new BufferedReader(new FileReader(filename));
             System.out.println("Enter usercode to search : ");
             String usercode1 = sc.next();
-            while ((currentline = br.readLine()) != null) {
+            while ((currentline = br1.readLine()) != null) {
                 String[] deatailed = currentline.split(",");
                 String usercode = deatailed[0];
                 String name = deatailed[1];
@@ -54,13 +53,11 @@ public class UserOperations {
                 boolean inactive = Boolean.parseBoolean(deatailed[4]);
                 user.add(new Userclass(usercode, name, jobs_completed, preffered_location, inactive));
                 if (usercode1.equals(usercode)) {
-                    count++;
                     System.out.println(usercode + "," + name + "," + jobs_completed + "," + preffered_location + "," + inactive);
                 }
             }
         }
         catch (Exception e){
-            System.out.println("User not exist!");
             e.printStackTrace();
         }
     }
@@ -68,8 +65,8 @@ public class UserOperations {
 
     public void SortByAlphabeticOrder() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(filename));
-            while ((currentline = br.readLine() )!= null){
+            BufferedReader br2 = new BufferedReader(new FileReader(filename));
+            while ((currentline = br2.readLine() )!= null){
                 String[] deatailed = currentline.split(",");
                 String usercode = deatailed[0];
                 String name = deatailed[1];
@@ -89,9 +86,9 @@ public class UserOperations {
 
     public void SearchMaxJobCompletion(){
         try {
-            BufferedReader br = new BufferedReader(new FileReader(filename));
+            BufferedReader br3 = new BufferedReader(new FileReader(filename));
             List<Integer> ls = new ArrayList<Integer>();
-            while ((currentline = br.readLine()) != null) {
+            while ((currentline = br3.readLine()) != null) {
                 String[] deatailed = currentline.split(",");
                 String usercode = deatailed[0];
                 String name = deatailed[1];
@@ -111,11 +108,11 @@ public class UserOperations {
 
     public void CreateFileConsistRemoteJobs(){
         try{
-            BufferedReader br = new BufferedReader(new FileReader(filename));
+            BufferedReader br4 = new BufferedReader(new FileReader(filename));
             System.out.println("Enter Preferred Location : ");
             String location = sc.next();
             FileWriter writer = new FileWriter("E:\\1.Practice\\demo\\sample.csv");
-            while ((currentline = br.readLine() )!= null){
+            while ((currentline = br4.readLine() )!= null){
                 String[] deatailed = currentline.split(",");
                 String usercode = deatailed[0];
                 String name = deatailed[1];
@@ -125,7 +122,6 @@ public class UserOperations {
                 user.add(new Userclass(usercode,name,jobs_completed,preffered_location,inactive));
                 if(location.equals(preffered_location))
                 {
-                    count ++;
                     System.out.println(usercode+","+name+","+jobs_completed+","+preffered_location+","+inactive );
                     writer.append(usercode);
                     writer.append(",");

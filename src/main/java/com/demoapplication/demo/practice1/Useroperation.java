@@ -10,6 +10,7 @@ public class Useroperation {
             // checks the input file format.
             userOperations.CheckFileFormatOperation();
             int choice;
+
             do {
                 System.out.println("----------------------------------------");
                 System.out.println("1.Search the user record based on the UserCode.");
